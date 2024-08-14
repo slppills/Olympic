@@ -9,18 +9,24 @@ function App() {
   const [countries, setCountries] = useState({});
 
   const addOrUpdateCountry = () => {
-    setCountries((prevCountries) => ({
-      ...prevCountries,
-      [countryName]: {
-        gold: parseInt(goldMedal),
-        silver: parseInt(silverMedal),
-        copper: parseInt(copperMedal),
-      },
-    }));
-    setCountryName("");
-    setGoldMedal(0);
-    setsilverMedal(0);
-    setCopperMedal(0);
+    if (goldMedal < 0 || silverMedal < 0 || copperMedal < 0) {
+      alert("메달은 음수값이 될 수 없습니다");
+    } else if (isNaN(parseInt(goldMedal)) || isNaN(parseInt(silverMedal)) || isNaN(parseInt(copperMedal))) {
+      alert("메달 수를 자연수로 입력해주세요");
+    } else {
+      setCountries((prevCountries) => ({
+        ...prevCountries,
+        [countryName]: {
+          gold: parseInt(goldMedal),
+          silver: parseInt(silverMedal),
+          copper: parseInt(copperMedal),
+        },
+      }));
+      setCountryName("");
+      setGoldMedal(0);
+      setsilverMedal(0);
+      setCopperMedal(0);
+    }
   };
 
   const addCountry = () => {
@@ -58,15 +64,15 @@ function App() {
         </div>
         <div className="input_field">
           <label>금메달</label>
-          <input onChange={(e) => setGoldMedal(e.target.value)} type="number" value={goldMedal} />
+          <input onChange={(e) => setGoldMedal(e.target.value)} type="number" min="0" value={goldMedal} />
         </div>
         <div className="input_field">
           <label>은메달</label>
-          <input onChange={(e) => setsilverMedal(e.target.value)} type="number" value={silverMedal} />
+          <input onChange={(e) => setsilverMedal(e.target.value)} type="number" min="0" value={silverMedal} />
         </div>
         <div className="input_field">
           <label>동메달</label>
-          <input onChange={(e) => setCopperMedal(e.target.value)} type="number" value={copperMedal} />
+          <input onChange={(e) => setCopperMedal(e.target.value)} type="number" min="0" value={copperMedal} />
         </div>
         <div className="button-group">
           <button type="button" onClick={addCountry}>
